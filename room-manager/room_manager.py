@@ -6,13 +6,9 @@ from datetime import datetime
 app = Flask(__name__)
 CORS(app)
 
-# In-memory storage for rooms
-rooms = {}
-
-
 class Room:
     def __init__(self, name, owner, max_players=4):
-        self.id = str(uuid.uuid4())
+        self.id = uuid.uuid4()
         self.name = name
         self.owner = owner
         self.players = [owner]
@@ -41,6 +37,9 @@ class Room:
             return True
         return False
 
+# In-memory storage for rooms
+rooms = {"DEV": Room("dev_room", "noah")}
+print(rooms["DEV"].to_dict())
 
 @app.route("/rooms", methods=["GET"])
 def get_rooms():
@@ -149,4 +148,5 @@ def health_check():
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=5000)
-    
+
+
